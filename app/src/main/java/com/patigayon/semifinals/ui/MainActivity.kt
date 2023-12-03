@@ -1,8 +1,9 @@
 package com.patigayon.semifinals.ui
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,38 +20,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setupRecyclerView()
         setupViewModel()
+        setupRecyclerView()
         setupAddButton()
+
+        viewModel.tweets.observe(this, { tweets ->
+            adapter.submitList(tweets)
+        })
+
+        viewModel.loadTweets()
     }
 
     private fun setupRecyclerView() {
         adapter = TweetListAdapter { tweet ->
-            // Handle click event, maybe open TweetDetailActivity
+            val intent = Intent(this, TweetDetailActivity::class.java)
+            intent.putExtra("tweet_id", tweet.id)
+            startActivity(intent)
         }
-        findViewById<RecyclerView>(R.id.recyclerView).apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = this@MainActivity.adapter
-        }
+        findViewById<RecyclerView>(R.id.recyclerView).adapter = adapter
     }
 
     private fun setupViewModel() {
         val factory = TweetViewModelFactory()
         viewModel = ViewModelProvider(this, factory)[TweetViewModel::class.java]
-
-        viewModel.tweets.observe(this) { tweets ->
-            adapter.submitList(tweets)
-        }
-        viewModel.loadTweets()
     }
 
     private fun setupAddButton() {
         val fabCreateTweet = findViewById<FloatingActionButton>(R.id.fabCreateTweet)
         fabCreateTweet.setOnClickListener {
-            // Intent to start CreateTweetActivity
             val intent = Intent(this, CreateTweetActivity::class.java)
             startActivity(intent)
         }
     }
-
 }
+

@@ -18,7 +18,7 @@ interface TweetApiService {
     fun getTweet(@Path("tweet_id") tweetId: String): Call<Tweet>
 
     @POST("tweet/patigayon")
-    fun createTweet(@Body newTweet: Tweet): Call<ResponseBody> // Assuming the Response is the okhttp3 ResponseBody
+    fun createTweet(@Body newTweet: Tweet): Call<ResponseBody>
 
     @PUT("tweet/patigayon/{tweet_id}")
     fun updateTweet(@Path("tweet_id") tweetId: String, @Body tweet: Tweet): Call<ResponseBody>
