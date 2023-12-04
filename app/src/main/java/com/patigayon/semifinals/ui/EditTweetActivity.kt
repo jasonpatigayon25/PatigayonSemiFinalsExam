@@ -1,5 +1,6 @@
 package com.patigayon.semifinals.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -62,14 +63,20 @@ class EditTweetActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Tweet>, response: Response<Tweet>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@EditTweetActivity, "Tweet updated successfully", Toast.LENGTH_SHORT).show()
-                    finish() // Close the activity after successful update
+
+                    // Intent to start MainActivity
+                    val intent = Intent(this@EditTweetActivity, MainActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    }
+                    startActivity(intent)
+                    finish()
                 } else {
-                    showError("Error updating tweet")
+                    showError("Error updating tweet: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<Tweet>, t: Throwable) {
-                showError("Failed to update tweet")
+                showError("Failed to update tweet: ${t.localizedMessage}")
             }
         })
     }
