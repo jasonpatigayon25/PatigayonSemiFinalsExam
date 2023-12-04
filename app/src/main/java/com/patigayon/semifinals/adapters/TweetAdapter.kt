@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.patigayon.semifinals.databinding.ItemTweetBinding
 import com.patigayon.semifinals.model.Tweet
-import com.patigayon.semifinals.ui.CreateTweetActivity
 import com.patigayon.semifinals.constants.Constants
+import com.patigayon.semifinals.ui.TweetDetailActivity
 
 class TweetAdapter(
     private val activity: Activity,
@@ -21,11 +21,11 @@ class TweetAdapter(
     ): RecyclerView.ViewHolder(binding.root) {
         fun bind(tweet: Tweet) {
 
-            binding.name.text = tweet.description
+            binding.name.text = tweet.name
             binding.description.text = tweet.description
 
             binding.root.setOnClickListener {
-                val intent = Intent(activity, CreateTweetActivity::class.java)
+                val intent = Intent(activity, TweetDetailActivity::class.java)
                 intent.putExtra(Constants.PARAM_ID, tweet.id)
                 activity.startActivity(intent)
             }

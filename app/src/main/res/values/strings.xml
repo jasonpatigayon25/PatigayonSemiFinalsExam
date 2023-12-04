@@ -4,4 +4,7 @@
     <string name="tweet_description_hint">Tweet Description</string>
     <string name="submit_tweet">Submit Tweet</string>
     <string name="add_post">Add Tweet</string>
+    <string name="confirm_delete">Confirm Delete</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -1,10 +1,14 @@
 package com.patigayon.semifinals.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.patigayon.semifinals.R
 import com.patigayon.semifinals.api.ServiceBuilder
 import com.patigayon.semifinals.constants.Constants
 import com.patigayon.semifinals.databinding.ActivityTweetDetailBinding
@@ -21,44 +25,64 @@ class TweetDetailActivity : AppCompatActivity() {
         binding = ActivityTweetDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        binding.imageViewOptions.setOnClickListener { view ->
+            showOverflowMenu(view)
+        }
 
         getTweet()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun getTweet() {
-        val id = intent.getStringExtra(Constants.PARAM_ID) ?: return
-        ServiceBuilder.tweetApiService.getTweet(id).enqueue(object: Callback<Tweet> {
+        val tweetId = intent.getStringExtra(Constants.PARAM_ID) ?: return
+        ServiceBuilder.tweetApiService.getTweet(tweetId).enqueue(object : Callback<Tweet> {
             override fun onResponse(call: Call<Tweet>, response: Response<Tweet>) {
                 if (response.isSuccessful) {
-                    val tweet: Tweet? = response.body()
-                    tweet?.let {
-                        binding.textViewTweetName.text = it.name
-                        binding.textViewTweetDescription.text = it.description
+                    response.body()?.let { tweet ->
+                        binding.textViewTweetName.text = tweet.name
+                        binding.textViewTweetDescription.text = tweet.description
                         binding.progressBar.visibility = View.GONE
                     }
                 } else {
-                    showError()
+                    showError("Error: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<Tweet>, t: Throwable) {
-                showError()
+                showError("Failure: ${t.message}")
             }
         })
     }
 
-    private fun showError() {
-        Toast.makeText(this, "Failed to load tweet.", Toast.LENGTH_SHORT).show()
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
+
+    private fun showOverflowMenu(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.menu_tweet_detail, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_edit -> {
+                    val intent = Intent(this, EditTweetActivity::class.java).apply {
+                        putExtra(Constants.PARAM_ID, intent.getStringExtra(Constants.PARAM_ID))
+                    }
+                    startActivity(intent)
+                    true
+                }
+                R.id.action_delete -> {
+                    val intent = Intent(this, DeleteTweetActivity::class.java).apply {
+                        putExtra(Constants.PARAM_ID, intent.getStringExtra(Constants.PARAM_ID))
+                    }
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
 }

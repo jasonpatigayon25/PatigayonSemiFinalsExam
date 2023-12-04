@@ -23,5 +23,5 @@ interface TweetApiService {
     fun updateTweet(@Path("tweet_id") tweetId: String, @Body tweet: Tweet): Call<Tweet>
 
     @DELETE("tweet/patigayon/{tweet_id}")
-    fun deleteTweet(@Path("tweet_id") tweetId: String): Call<Tweet>
+    fun deleteTweet(@Path("tweet_id") tweetId: String): Call<Void>
 }

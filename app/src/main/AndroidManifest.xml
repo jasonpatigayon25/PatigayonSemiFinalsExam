@@ -31,8 +31,17 @@
 
         <activity
             android:name=".ui.TweetDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="true" />
 
+        <activity
+            android:name=".ui.EditTweetActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.DeleteTweetActivity"
+            android:theme="@style/Theme.AppCompat.Dialog.Alert"
+            android:exported="true" />
     </application>
 
 </manifest>
