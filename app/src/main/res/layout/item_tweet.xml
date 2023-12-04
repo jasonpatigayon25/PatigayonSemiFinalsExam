@@ -29,14 +29,12 @@
             android:maxLines="1"
             android:textSize="16sp"/>
 
-        <!-- The clickable layout or view in your RecyclerView item -->
         <FrameLayout
             android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="true">
-            <!-- Other views can go here -->
         </FrameLayout>
 
     </LinearLayout>

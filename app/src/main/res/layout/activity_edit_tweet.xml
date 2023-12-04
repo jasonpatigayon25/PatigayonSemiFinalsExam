@@ -1,26 +1,61 @@
-<!-- res/layout/activity_edit_tweet.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/skyblue_light"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:contentDescription="@string/back"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
         android:id="@+id/editTweetName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Tweet Name" />
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:hint="Tweet Name"
+        android:inputType="text"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/backButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        android:background="@drawable/custom_edittext_background" />
 
     <EditText
         android:id="@+id/editTweetDescription"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Tweet Description"
-        android:inputType="textMultiLine" />
+        android:inputType="textMultiLine"
+        android:minLines="4"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/editTweetName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"
+        android:background="@drawable/custom_edittext_background" />
 
     <Button
         android:id="@+id/buttonUpdateTweet"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Update Tweet" />
-</LinearLayout>
+        android:text="Update Tweet"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/dark_blue"
+        app:cornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

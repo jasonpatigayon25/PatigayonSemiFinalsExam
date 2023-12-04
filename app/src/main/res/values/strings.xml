@@ -7,4 +7,6 @@
     <string name="confirm_delete">Confirm Delete</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="add_tweet">Add Tweet</string>
+    <string name="back">Back</string>
 </resources>

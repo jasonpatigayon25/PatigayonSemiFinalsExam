@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.patigayon.semifinals.R
 import com.patigayon.semifinals.api.ServiceBuilder
 import com.patigayon.semifinals.constants.Constants
 import com.patigayon.semifinals.databinding.ActivityEditTweetBinding
@@ -30,6 +29,10 @@ class EditTweetActivity : AppCompatActivity() {
             if (tweetId != null) {
                 updateTweet(tweetId)
             }
+        }
+
+        binding.backButton.setOnClickListener {
+            finish()
         }
     }
 
@@ -64,7 +67,6 @@ class EditTweetActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     Toast.makeText(this@EditTweetActivity, "Tweet updated successfully", Toast.LENGTH_SHORT).show()
 
-                    // Intent to start MainActivity
                     val intent = Intent(this@EditTweetActivity, MainActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     }

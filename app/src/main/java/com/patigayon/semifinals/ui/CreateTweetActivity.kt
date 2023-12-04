@@ -19,12 +19,13 @@ class   CreateTweetActivity : AppCompatActivity() {
         binding = ActivityCreateTweetBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         binding.buttonSubmitTweet.setOnClickListener {
             if(!binding.tweetDescription.text.isNullOrBlank()) {
                 createPost()
             }
+        }
+        binding.backButton.setOnClickListener {
+            finish()
         }
     }
 

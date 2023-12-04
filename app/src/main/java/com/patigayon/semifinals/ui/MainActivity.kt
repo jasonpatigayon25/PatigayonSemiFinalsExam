@@ -23,6 +23,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupRecyclerView()
+        setupFab()
+    }
+
+    private fun setupRecyclerView() {
+        val layoutManager = LinearLayoutManager(this).apply {
+            reverseLayout = true
+            stackFromEnd = true
+        }
+        binding.recyclerViewTweets.layoutManager = layoutManager
+    }
+
+    private fun setupFab() {
         binding.fabCreateTweet.setOnClickListener {
             startActivity(Intent(this, CreateTweetActivity::class.java))
         }
@@ -34,26 +47,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadTweets() {
-            val activity = this
-            ServiceBuilder.tweetApiService.getAllTweets().enqueue(object: Callback<List<Tweet>> {
-                override fun onResponse(call: Call<List<Tweet>>, response: Response<List<Tweet>>) {
-                    if (response.isSuccessful) {
-                        val data: List<Tweet>? = response.body()
-                        if(data != null) {
-                            binding.recyclerViewTweets.layoutManager = LinearLayoutManager(activity)
-                            binding.recyclerViewTweets.adapter = TweetAdapter(activity, data)
-                            binding.progressBar.visibility = View.GONE
-                        }
-                    } else {
-                        showError()
+        ServiceBuilder.tweetApiService.getAllTweets().enqueue(object: Callback<List<Tweet>> {
+            override fun onResponse(call: Call<List<Tweet>>, response: Response<List<Tweet>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { data ->
+                        binding.recyclerViewTweets.adapter = TweetAdapter(this@MainActivity, data)
+                        binding.progressBar.visibility = View.GONE
                     }
-                }
-
-                override fun onFailure(call: Call<List<Tweet>>, t: Throwable) {
+                } else {
                     showError()
                 }
-            })
-        }
+            }
+
+            override fun onFailure(call: Call<List<Tweet>>, t: Throwable) {
+                showError()
+            }
+        })
+    }
+
     private fun showError() {
         Toast.makeText(this, "Failed to load data.", Toast.LENGTH_SHORT).show()
     }

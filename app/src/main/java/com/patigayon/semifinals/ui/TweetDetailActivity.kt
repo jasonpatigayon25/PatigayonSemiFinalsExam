@@ -25,8 +25,9 @@ class TweetDetailActivity : AppCompatActivity() {
         binding = ActivityTweetDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(findViewById(R.id.toolbar))
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.backButton.setOnClickListener {
+            finish()
+        }
 
         binding.imageViewOptions.setOnClickListener { view ->
             showOverflowMenu(view)
@@ -59,7 +60,6 @@ class TweetDetailActivity : AppCompatActivity() {
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
-
     private fun showOverflowMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.menu_tweet_detail, popupMenu.menu)
@@ -84,5 +84,4 @@ class TweetDetailActivity : AppCompatActivity() {
         }
         popupMenu.show()
     }
-
 }
