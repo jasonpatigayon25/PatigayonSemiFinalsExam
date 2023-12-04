@@ -1,5 +1,6 @@
 package com.patigayon.semifinals.ui
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -30,7 +31,7 @@ class DeleteTweetActivity : AppCompatActivity() {
         }
 
         binding.buttonCancelDelete.setOnClickListener {
-            finish() // Close the activity without deleting
+            finish()
         }
     }
 
@@ -39,7 +40,11 @@ class DeleteTweetActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@DeleteTweetActivity, "Tweet deleted successfully", Toast.LENGTH_SHORT).show()
-                    finish() // Close the activity after successful deletion
+
+                    val intent = Intent(this@DeleteTweetActivity, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
                 } else {
                     showError("Error deleting tweet: ${response.errorBody()?.string()}")
                 }
