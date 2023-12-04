@@ -1,4 +1,5 @@
 <resources>
+    <string name="header_title">Patigayon Semi-Finals (Tweet)</string>
     <string name="app_name">Patigayon Semi Finals Exam</string>
     <string name="tweet_name_hint">Tweet Name</string>
     <string name="tweet_description_hint">Tweet Description</string>
@@ -9,4 +10,8 @@
     <string name="cancel">Cancel</string>
     <string name="add_tweet">Add Tweet</string>
     <string name="back">Back</string>
+    <string name="update_tweet">Update Tweet</string>
+    <string name="tweet_name_placeholder">Tweet Name Placeholder</string>
+    <string name="tweet_description_placeholder">Tweet Description Placeholder</string>
+    <string name="options">Options</string>
 </resources>

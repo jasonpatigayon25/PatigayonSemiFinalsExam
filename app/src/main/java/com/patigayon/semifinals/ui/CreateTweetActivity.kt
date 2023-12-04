@@ -48,19 +48,20 @@ class   CreateTweetActivity : AppCompatActivity() {
         ServiceBuilder.tweetApiService.createTweet(post).enqueue(object: Callback<Tweet> {
             override fun onResponse(call: Call<Tweet>, response: Response<Tweet>) {
                 if (response.isSuccessful) {
+                    Toast.makeText(this@CreateTweetActivity, "Tweet added successfully", Toast.LENGTH_SHORT).show()
                     finish()
                 } else {
-                    showError()
+                    showError("Error: ${response.errorBody()?.string()}")
                 }
             }
 
             override fun onFailure(call: Call<Tweet>, t: Throwable) {
-                showError()
+                showError("Failure: ${t.localizedMessage}")
             }
         })
     }
 
-    private fun showError() {
-        Toast.makeText(this, "Failed to save data.", Toast.LENGTH_SHORT).show()
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }

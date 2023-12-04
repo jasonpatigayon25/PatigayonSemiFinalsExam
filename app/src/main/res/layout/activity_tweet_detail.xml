@@ -22,12 +22,13 @@
             android:id="@+id/textViewTweetName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/imageViewOptions"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_alignParentStart="true"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="8dp"
-            android:text="Tweet Name Placeholder" />
+            android:text="@string/tweet_name_placeholder" />
 
         <ImageView
             android:id="@+id/imageViewOptions"
@@ -35,6 +36,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_ellipse"
             android:layout_alignParentEnd="true"
+            android:contentDescription="@string/options"
             android:padding="16dp"
             android:clickable="true"
             android:focusable="true" />
@@ -45,9 +47,10 @@
         android:id="@+id/textViewTweetDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/blackish"
         android:textSize="18sp"
         android:layout_marginBottom="16dp"
-        android:text="Tweet Description Placeholder" />
+        android:text="@string/tweet_description_placeholder" />
 
     <ProgressBar
         android:id="@+id/progressBar"
