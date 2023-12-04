@@ -3,4 +3,5 @@
     <string name="tweet_name_hint">Tweet Name</string>
     <string name="tweet_description_hint">Tweet Description</string>
     <string name="submit_tweet">Submit Tweet</string>
+    <string name="add_post">Add Tweet</string>
 </resources>

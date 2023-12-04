@@ -2,55 +2,59 @@ package com.patigayon.semifinals.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.patigayon.semifinals.R
-import com.patigayon.semifinals.repository.TweetViewModelFactory
-import com.patigayon.semifinals.viewmodel.TweetViewModel
+import com.patigayon.semifinals.adapters.TweetAdapter
+import com.patigayon.semifinals.api.ServiceBuilder
+import com.patigayon.semifinals.databinding.ActivityMainBinding
+import com.patigayon.semifinals.model.Tweet
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var viewModel: TweetViewModel
-    private lateinit var adapter: TweetListAdapter
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setupViewModel()
-        setupRecyclerView()
-        setupAddButton()
-
-        viewModel.tweets.observe(this, { tweets ->
-            adapter.submitList(tweets)
-        })
-
-        viewModel.loadTweets()
-    }
-
-    private fun setupRecyclerView() {
-        adapter = TweetListAdapter { tweet ->
-            val intent = Intent(this, TweetDetailActivity::class.java)
-            intent.putExtra("tweet_id", tweet.id)
-            startActivity(intent)
+        binding.fabCreateTweet.setOnClickListener {
+            startActivity(Intent(this, CreateTweetActivity::class.java))
         }
-        findViewById<RecyclerView>(R.id.recyclerView).adapter = adapter
     }
 
-    private fun setupViewModel() {
-        val factory = TweetViewModelFactory()
-        viewModel = ViewModelProvider(this, factory)[TweetViewModel::class.java]
+    override fun onResume() {
+        super.onResume()
+        loadTweets()
     }
 
-    private fun setupAddButton() {
-        val fabCreateTweet = findViewById<FloatingActionButton>(R.id.fabCreateTweet)
-        fabCreateTweet.setOnClickListener {
-            val intent = Intent(this, CreateTweetActivity::class.java)
-            startActivity(intent)
+    private fun loadTweets() {
+            val activity = this
+            ServiceBuilder.tweetApiService.getAllTweets().enqueue(object: Callback<List<Tweet>> {
+                override fun onResponse(call: Call<List<Tweet>>, response: Response<List<Tweet>>) {
+                    if (response.isSuccessful) {
+                        val data: List<Tweet>? = response.body()
+                        if(data != null) {
+                            binding.recyclerViewTweets.layoutManager = LinearLayoutManager(activity)
+                            binding.recyclerViewTweets.adapter = TweetAdapter(activity, data)
+                            binding.progressBar.visibility = View.GONE
+                        }
+                    } else {
+                        showError()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<Tweet>>, t: Throwable) {
+                    showError()
+                }
+            })
         }
+    private fun showError() {
+        Toast.makeText(this, "Failed to load data.", Toast.LENGTH_SHORT).show()
     }
 }
-

@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.CreateTweetActivity">
 
     <EditText
-        android:id="@+id/editTweetName"
+        android:id="@+id/tweetName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Tweet Name"
@@ -14,12 +16,12 @@
         android:layout_margin="16dp"/>
 
     <EditText
-        android:id="@+id/editTweetDescription"
+        android:id="@+id/tweetDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Tweet Description"
         android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@id/editTweetName"
+        app:layout_constraintTop_toBottomOf="@id/tweetName"
         android:layout_margin="16dp"/>
 
     <Button
@@ -27,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit Tweet"
-        app:layout_constraintTop_toBottomOf="@id/editTweetDescription"
+        app:layout_constraintTop_toBottomOf="@id/tweetDescription"
         android:layout_margin="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
